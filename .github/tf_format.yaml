@@ -1,0 +1,24 @@
+name: "Terraform Format Check"
+
+on:
+  pull_requests:
+    branches:
+      - main
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      
+      - name: install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with: 
+          terraform_version: 1.9.2
+      
+      - name: Format Terraform code
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
